@@ -1,0 +1,138 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Arial", sans-serif;
+  background-color: #1a1a1a;
+  color: #ffffff;
+}
+
+.logo {
+  width: 150px;
+  height: 150px;
+}
+
+.icons a {
+  color: #fff;
+  text-decoration: none;
+  margin-left: 20px;
+  font-size: 1.2rem;
+}
+
+.product-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2rem;
+}
+
+.product-details {
+  max-width: 50%;
+}
+
+.product-details h1 {
+  font-size: 2.5rem;
+  color: red; /* Aqua */
+  margin-bottom: 1rem;
+}
+
+.product-details p {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+  color: #cccccc; /* Gray */
+}
+
+.product-details h2 {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.product-details button {
+  background-color: red; /* Aqua */
+  color: #fff;
+  padding: 1rem 2rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.product-details button:hover {
+  background-color: #0097a7; /* Slightly darker Aqua */
+}
+
+.product-image img {
+  max-width: 400px;
+  width: 100%;
+  height: auto;
+}
+/* Estilos do carrossel */
+.carousel {
+  position: relative;
+  width: 80%;
+  max-width: 800px;
+  margin: 2rem auto;
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+.carousel-content {
+  display: flex;
+  width: 300%;
+  transition: transform 0.5s ease-in-out;
+}
+
+input[name="carousel"] {
+  display: none;
+}
+
+#carousel-1:checked ~ .carousel-content {
+  transform: translateX(0);
+}
+
+#carousel-2:checked ~ .carousel-content {
+  transform: translateX(-33.33%);
+}
+
+#carousel-3:checked ~ .carousel-content {
+  transform: translateX(-66.66%);
+}
+
+.product-image {
+  width: 33.33%;
+  padding: 0.5rem;
+}
+
+.product-image img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+
+/* Estilos para os pontos de navegação do carrossel */
+.carousel-nav {
+  position: absolute;
+  bottom: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+}
+
+.carousel-nav label {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: #ccc;
+  margin: 0 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#carousel-1:checked ~ .carousel-nav label[for="carousel-1"],
+#carousel-2:checked ~ .carousel-nav label[for="carousel-2"],
+#carousel-3:checked ~ .carousel-nav label[for="carousel-3"] {
+  background-color: #00ced1;
+}

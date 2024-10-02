@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../styles/stylesaddanuncios.css" />
+    <title>Lista de Anúncios</title>
+  </head>
+  <body>
+    <h1>Adicionar Anúncios</h1>
+    <div id="anuncios"></div>
+
+    <!-- Formulário para adicionar anúncio -->
+    <form id="adicionarAnuncioForm" enctype="multipart/form-data">
+      <section class="addAnuncio">
+        <label for="modelo">Modelo:</label>
+        <input type="text" id="modelo" name="modelo" required />
+        <label for="marca">Marca:</label>
+        <input type="text" id="marca" name="marca" required />
+        <label for="ano">Ano:</label>
+        <input type="number" id="ano" name="ano" required />
+        <label for="preco">Preço:</label>
+        <input type="number" id="preco" name="preco" required />
+        <label for="descricao">Descrição:</label>
+        <textarea id="descricao" name="descricao" required></textarea>
+        <label for="imagens">Imagens:</label>
+        <input type="file" id="imagens" name="imagens" multiple />
+
+        <!-- Contêiner para as imagens de preview -->
+        <div id="imagePreviewContainer"></div>
+
+        <button type="submit">Adicionar Anúncio</button>
+      </section>
+    </form>
+
+    <script>
+      // Código para enviar o formulário
+      document
+        .getElementById("adicionarAnuncioForm")
+        .addEventListener("submit", function (event) {
+          event.preventDefault();
+
+          const formData = new FormData(this);
+
+          fetch("http://localhost:3000/adicionar-anuncio", {
+            method: "POST",
+            body: formData,
+          })
+            .then((response) => response.text())
+            .then((result) => {
+              alert(result);
+
+              window.location.href = "./marketplace.html"; // Redirecionar para o marketplace após adicionar o anúncio
+            })
+            .catch((error) => {
+              console.error("Erro ao adicionar anúncio:", error);
+            });
+        });
+
+      // Função para exibir o preview das imagens
+      document
+        .getElementById("imagens")
+        .addEventListener("change", function () {
+          const imagePreviewContainer = document.getElementById(
+            "imagePreviewContainer"
+          );
+          imagePreviewContainer.innerHTML = ""; // Limpa as imagens de preview anteriores
+
+          const files = this.files;
+
+          for (let i = 0; i < files.length; i++) {
+            const file = files[i];
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+              const imgElement = document.createElement("img");
+              imgElement.src = e.target.result;
+              imgElement.alt = `Imagem ${i + 1}`;
+
+              imgElement.classList.add("previewimg"); // Adiciona uma classe para estilizar as imagens
+
+              imagePreviewContainer.appendChild(imgElement);
+            };
+
+            reader.readAsDataURL(file);
+          }
+        });
+    </script>
+  </body>
+</html>

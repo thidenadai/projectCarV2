@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <!-- Seção do cabeçalho do documento -->
+
+    <meta charset="UTF-8" />
+    <!-- Define o conjunto de caracteres como UTF-8, que é um padrão para suportar a maioria dos caracteres e símbolos -->
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Define o viewport para garantir que a página seja dimensionada corretamente em dispositivos móveis -->
+
+    <title>Document</title>
+    <!-- Define o título da página que aparece na aba do navegador -->
+
+    <link rel="stylesheet" href="../styles/styles.css" />
+    <!-- Link para um arquivo CSS externo que contém estilos para a página. O caminho relativo sugere que o arquivo está em um diretório acima na pasta "styles" -->
+
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <!-- Link para a biblioteca Boxicons, que fornece ícones para uso no documento. O atributo "rel" especifica que é uma folha de estilo -->
+
+    <script src="../script/scripts.js" defer></script>
+    <!-- Link para um arquivo JavaScript externo. O atributo "defer" faz com que o script seja executado após a página ter sido completamente carregada -->
+  </head>
+
+  <!-- Seção principal do corpo da página -->
+  <body>
+    <header class="header">
+      <!-- Seção de cabeçalho, geralmente contém o logo e a navegação principal -->
+
+      <a href="../index.html" class="logo"> </a>
+      <!-- Um link que representa o logotipo da página. O atributo "href" está vazio, então não leva a lugar nenhum -->
+
+      <input type="checkbox" id="check" />
+      <!-- Um checkbox que provavelmente é usado para ativar/desativar um menu móvel -->
+
+      <label for="check" class="icons">
+        <!-- Um rótulo que controla o checkbox. O atributo "for" está associado ao ID do checkbox -->
+
+        <i class="bx bx-menu" id="menu-icon"></i>
+        <!-- Um ícone de menu fornecido pela biblioteca Boxicons, visível quando o menu está fechado -->
+
+        <i class="bx bx-x" id="close-icon"></i>
+        <!-- Um ícone de fechar fornecido pela biblioteca Boxicons, visível quando o menu está aberto -->
+      </label>
+
+      <nav class="navbar">
+        <!-- Navegação principal do site -->
+
+        <a style="--i: 1" href="../index.html">Home</a>
+        <!-- Link para a página inicial do site -->
+
+        <a style="--i: 2" href="./pages/marketplace.html">Marketplace</a>
+        <!-- Link para a página do marketplace -->
+
+        <a style="--i: 3" href="">About</a>
+        <!-- Link para a seção "Sobre" (não tem um destino definido) -->
+
+        <a style="--i: 4" href="">Contact</a>
+        <!-- Link para a seção "Contato" (não tem um destino definido) -->
+
+        <a style="--i: 5" href="./cadastro.html">Login</a>
+        <!-- Link para a seção "Login" (não tem um destino definido) -->
+      </nav>
+    </header>
+
+    <section class="">
+      <div class="opacity">
+        <section class="Titulo">
+          <!-- Seção de conteúdo da página -->
+          <a href="anuncios.html">adicionar-anuncio</a>
+          <!-- Título da seção com o texto "Marketplace" -->
+        </section>
+        <h2>Lista de Anúncios:</h2>
+
+        <div id="anuncios"></div>
+      </div>
+    </section>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        fetch("http://localhost:3000/anuncios")
+          .then((response) => response.json())
+          .then((data) => {
+            const anunciosContainer = document.getElementById("anuncios");
+            anunciosContainer.innerHTML = ""; // Limpa o conteúdo existente
+
+            data.forEach((anuncio) => {
+              // Verificar se imagens_urls é um array válido
+              const imagensUrls = Array.isArray(anuncio.imagens_urls)
+                ? anuncio.imagens_urls
+                : [];
+              const imagensHtml = imagensUrls
+                .map((imagemUrl) => {
+                  return `<img src="http://localhost:3000/uploads/${imagemUrl}" alt="${anuncio.modelo}">`;
+                })
+                .join("");
+
+              const precoFormatado = parseFloat(anuncio.preço);
+              if (isNaN(precoFormatado)) {
+                console.error(
+                  `Preço inválido para o anúncio ${anuncio.modelo}`
+                );
+                return;
+              }
+
+              const anuncioElement = document.createElement("div");
+              anuncioElement.classList.add("anuncio");
+
+              anuncioElement.innerHTML = `
+            
+          <h2>${anuncio.modelo} (${anuncio.ano})</h2>
+          <p><strong>Marca:</strong> ${anuncio.marca}</p>
+          <p><strong>Preço:</strong> R$ ${precoFormatado.toFixed(2)}</p>
+          <p><strong>Descrição:</strong> ${anuncio.descrição}</p>
+          <div class="imagens">
+            ${imagensHtml}
+          </div>
+         
+        `;
+
+              anunciosContainer.appendChild(anuncioElement);
+            });
+          })
+          .catch((error) => {
+            console.error("Erro ao buscar anúncios:", error);
+          });
+      });
+    </script>
+  </body>
+</div>
+</section>
+</html>
